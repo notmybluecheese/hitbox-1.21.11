@@ -12,6 +12,19 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EntityHitboxDebugRenderer.class)
 public class EntityHitboxDebugRendererMixin {
 
+    // Vehicle riding-position indicator: 2nd cuboid call (ordinal 1) — thin yellow flat AABB at the passenger attachment point
+    @Redirect(
+        method = "showHitboxes",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/gizmos/Gizmos;cuboid(Lnet/minecraft/world/phys/AABB;Lnet/minecraft/gizmos/GizmoStyle;)Lnet/minecraft/gizmos/GizmoProperties;",
+            ordinal = 1
+        )
+    )
+    private GizmoProperties hideRidingPosition(AABB aabb, GizmoStyle style) {
+        return null;
+    }
+
     // Eye level indicator: 3rd cuboid call (ordinal 2) — thin flat AABB drawn at LivingEntity eye height
     @Redirect(
         method = "showHitboxes",
