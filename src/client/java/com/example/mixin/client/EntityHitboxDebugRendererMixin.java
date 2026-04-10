@@ -48,4 +48,16 @@ public class EntityHitboxDebugRendererMixin {
     private GizmoProperties hideLookVector(Vec3 from, Vec3 to, int color) {
         return null;
     }
+
+    // Top/bottom center dots: point calls rendered at the vertical extremes of the hitbox
+    @Redirect(
+        method = "showHitboxes",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/gizmos/Gizmos;point(Lnet/minecraft/world/phys/Vec3;IF)Lnet/minecraft/gizmos/GizmoProperties;"
+        )
+    )
+    private GizmoProperties hideCenterPoints(Vec3 pos, int color, float size) {
+        return null;
+    }
 }
